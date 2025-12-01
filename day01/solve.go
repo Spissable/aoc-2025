@@ -27,8 +27,30 @@ func SolvePuzzle1(input string) int {
 }
 
 func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
+	rotations := newRotations(input)
+	pos := 50
+	result := 0
+
+	for _, r := range rotations {
+		switch r.direction {
+		case 'L':
+			for i := 0; i < r.distance; i++ {
+				pos--
+				if pos%100 == 0 {
+					result++
+				}
+			}
+		case 'R':
+			for i := 0; i < r.distance; i++ {
+				pos++
+				if pos%100 == 0 {
+					result++
+				}
+			}
+		}
+	}
+
+	return result
 }
 
 type rotation struct {
