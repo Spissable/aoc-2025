@@ -20,9 +20,33 @@ func SolvePuzzle1(input string) (result int) {
 	return result
 }
 
-func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
+func SolvePuzzle2(input string) (result int) {
+	ranges := NewRanges(input)
+	for _, r := range ranges {
+		for currentNum := r.from; currentNum <= r.to; currentNum++ {
+			str := strconv.Itoa(currentNum)
+			for patternLen := 1; patternLen <= len(str)/2; patternLen++ {
+				if len(str)%patternLen != 0 {
+					continue
+				}
+
+				pattern := str[0:patternLen]
+				repeats := true
+				for cmpIndex := patternLen; cmpIndex <= len(str)-patternLen; cmpIndex += patternLen {
+					if pattern != str[cmpIndex:cmpIndex+patternLen] {
+						repeats = false
+						break
+					}
+				}
+
+				if repeats {
+					result += currentNum
+					break
+				}
+			}
+		}
+	}
+	return result
 }
 
 type rangeNum struct {
