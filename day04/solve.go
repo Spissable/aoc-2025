@@ -16,9 +16,23 @@ func SolvePuzzle1(input string) (result int) {
 	return result
 }
 
-func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
+func SolvePuzzle2(input string) (result int) {
+	p := newPapers(input)
+	didRemove := true
+
+	for didRemove == true {
+		didRemove = false
+
+		for coords, _ := range p {
+			if len(p.getNeighbors(coords.x, coords.y)) < 4 {
+				result++
+				delete(p, coords)
+				didRemove = true
+			}
+		}
+	}
+
+	return result
 }
 
 type coord struct{ x, y int }
