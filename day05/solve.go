@@ -1,6 +1,7 @@
 package day05
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,9 +16,43 @@ func SolvePuzzle1(input string) (result int) {
 	return result
 }
 
-func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
+func SolvePuzzle2(input string) (result int) {
+	ingredients := newIngredients(input)
+
+	sort.Slice(ingredients.freshRanges, func(i, j int) bool {
+		return ingredients.freshRanges[i].from < ingredients.freshRanges[j].from
+	})
+
+	merged := mergeRanges(ingredients.freshRanges)
+
+	for _, r := range merged {
+		result += r.to - r.from + 1
+	}
+
+	return result
+}
+
+func mergeRanges(ranges []idRange) []idRange {
+	if len(ranges) == 0 {
+		return nil
+	}
+
+	merged := []idRange{ranges[0]}
+
+	for i := 1; i < len(ranges); i++ {
+		current := ranges[i]
+		last := &merged[len(merged)-1]
+
+		if current.from <= last.to+1 {
+			if current.to > last.to {
+				last.to = current.to
+			}
+		} else {
+			merged = append(merged, current)
+		}
+	}
+
+	return merged
 }
 
 type idRange struct {
