@@ -9,9 +9,9 @@ func SolvePuzzle1(input string) (result int) {
 	return d.walk(coord{x: d.start.x, y: d.start.y + 1}, make(map[coord]bool))
 }
 
-func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
+func SolvePuzzle2(input string) (result int) {
+	d := newDiagram(input)
+	return d.walk2(coord{x: d.start.x, y: d.start.y + 1}, make(map[coord]int))
 }
 
 type coord struct {
@@ -56,4 +56,24 @@ func (d diagram) walk(pos coord, walked map[coord]bool) int {
 	}
 
 	return d.walk(coord{x: pos.x, y: pos.y + 1}, walked)
+}
+
+func (d diagram) walk2(pos coord, walked map[coord]int) (result int) {
+	if pos.x > d.width-1 || pos.x < 0 || pos.y > d.height-1 {
+		return 1
+	}
+
+	if v, ok := walked[pos]; ok {
+		return v
+	}
+
+	if d.splitters[pos] {
+		result = d.walk2(coord{x: pos.x - 1, y: pos.y + 1}, walked) +
+			d.walk2(coord{x: pos.x + 1, y: pos.y + 1}, walked)
+	} else {
+		result = d.walk2(coord{x: pos.x, y: pos.y + 1}, walked)
+	}
+
+	walked[pos] = result
+	return result
 }
