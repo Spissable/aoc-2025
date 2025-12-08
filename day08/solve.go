@@ -32,7 +32,22 @@ func SolvePuzzle1(input string) (result int) {
 }
 
 func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
+	boxes := newBoxes(input)
+	pairs := newPairs(boxes)
+
+	sort.Slice(pairs, func(a, b int) bool {
+		return pairs[a].distance < pairs[b].distance
+	})
+
+	var circuits circuits
+	for _, pair := range pairs {
+		circuits.addPair(pair)
+
+		if len(circuits) == 1 && len(circuits[0]) == len(boxes) {
+			return pair.p.x * pair.q.x
+		}
+	}
+
 	return 0
 }
 
