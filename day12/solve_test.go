@@ -11,9 +11,3 @@ func TestSolvePuzzle1(t *testing.T) {
 	result := day12.SolvePuzzle1(input)
 	utils.LogResult(t, result)
 }
-
-func TestSolvePuzzle2(t *testing.T) {
-	input := utils.ReadInput(t)
-	result := day12.SolvePuzzle2(input)
-	utils.LogResult(t, result)
-}

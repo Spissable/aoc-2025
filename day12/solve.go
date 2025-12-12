@@ -15,11 +15,6 @@ func SolvePuzzle1(input string) (result int) {
 	return result
 }
 
-func SolvePuzzle2(input string) int {
-	// TODO: solve puzzle 2
-	return 0
-}
-
 type region struct {
 	width  int
 	length int
